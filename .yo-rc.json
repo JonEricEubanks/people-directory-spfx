@@ -1,0 +1,23 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "useGulp": false,
+    "nodeVersion": "22.14.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.22.1",
+    "libraryName": "react-directory",
+    "libraryId": "5b62bc16-3a71-461d-be2f-16bfcb011e8a",
+    "environment": "spo",
+    "packageManager": "npm",
+    "framework": "react",
+    "isCreatingSolution": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart",
+    "solutionName": "\\",
+    "solutionShortDescription": "\\ description",
+    "skipFeatureDeployment": true
+  }
+}

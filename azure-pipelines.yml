@@ -1,0 +1,82 @@
+resources:
+- repo: self
+trigger:
+- master
+- develop
+pool:
+  vmImage: 'vs2022-win2022'
+  demands:
+  - npm
+  - node.js
+
+steps:
+#install node 22.x
+- task: NodeTool@0
+  displayName: 'Use Node 22.x'
+  inputs:
+    versionSpec: 22.x
+    checkLatest: true
+
+#install nodejs modules with npm
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: '$(Build.SourcesDirectory)'
+    verbose: false
+
+#start unit tests
+- task: Npm@1
+  displayName: 'npm test'
+  inputs:
+    command: custom
+    customCommand: 'test'
+    workingDir: '$(Build.SourcesDirectory)'
+    verbose: false
+
+# Publish Test Results to Azure Pipelines/TFS
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: 'temp/test/junit/junit.xml'
+    searchFolder: '$(Build.SourcesDirectory)'
+
+# publish coverage test results
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish Code Coverage Results $(Build.SourcesDirectory)/temp/test/cobertura-coverage.xml'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/temp/test/cobertura-coverage.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/temp/test/'
+
+#bundle code with heft
+#npx heft build --production 
+# npm run build -- --production   
+- task: Npm@1
+  displayName: 'npm build'
+  inputs:
+    command: custom
+    customCommand: 'run build -- --production'
+    workingDir: '$(Build.SourcesDirectory)'
+    verbose: false
+
+#package solution with heft
+- task: Npm@1
+  displayName: 'npm package-solution'
+  inputs:
+    command: custom
+    customCommand: 'package-solution'
+    workingDir: '$(Build.SourcesDirectory)'
+    verbose: false
+
+
+#copy files to artifact repository
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)/drop'
+  inputs:
+    Contents: '**\*.sppkg'
+    TargetFolder: '$(build.artifactstagingdirectory)/drop'
+
+#publish artifacts
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact:  drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/drop'
