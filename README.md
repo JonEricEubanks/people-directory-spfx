@@ -1,5 +1,19 @@
 # Organization Directory
 
+## Enhanced People Directory upload package
+
+[Download the Enhanced People Directory package](./packages/enhanced-people-directory.sppkg?raw=true) - version **1.0.10.0**, ready for SharePoint testing.
+
+- Requires `onPremisesExtensionAttributes.extensionAttribute15` to equal `E` (case/whitespace normalized), while retaining existing disabled-account and guest exclusions.
+- Adds department-specific division filtering derived from `officeLocation`.
+- Preserves department buttons, division pills, and A-Z navigation; fixes selected-button clipping, desktop overflow-menu stability, and results-row padding.
+
+Upload using the exact filename **enhanced-people-directory.sppkg** to update the existing Enhanced People Directory app. The package retains its original solution identity. Live employee totals and division assignments still need verification against HR data; the package does not impose a record-count cap.
+
+**Source distinction:** This is an updated prebuilt Enhanced People Directory package, not an output of the Search Directory source below. Building this repository's source does not reproduce this package.
+
+SHA-256: `00d4d905f3eced89545993bea30867ebe36b0de04800acfb13f3162920390a8a`
+
 ## Summary
 
 Search People from Organization Directory and show live persona card on hover.

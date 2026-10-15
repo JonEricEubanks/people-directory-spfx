@@ -17,6 +17,7 @@ solution
 temp
 jest-output
 *.sppkg
+!/packages/enhanced-people-directory.sppkg
 .heft
 
 # Coverage directory used by tools like istanbul
